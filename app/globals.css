@@ -37,3 +37,20 @@ h5,
 h6 {
   font-family: var(--font-montserrat);
 }
+
+@layer components {
+  .hyperlink span {
+    @apply relative;
+  }
+  .hyperlink span::after {
+    content: "";
+    @apply absolute left-0 -bottom-2 h-0.5 w-0 bg-foreground transition-[width] duration-500 ease-out;
+  }
+  .hyperlink:hover span::after,
+  .hyperlink:focus-visible span::after {
+    @apply w-full duration-150;
+  }
+  .hyperlink:focus-visible {
+    @apply outline-none;
+  }
+}

@@ -28,7 +28,9 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
         <header className="py-8 flex justify-between">
           <p>Logo</p>
           <nav>
-            <Link href='/projects'>Projects</Link>
+            <Link className="hyperlink text-lg p-4 -mr-4" href='/projects'>
+              <span>Projects</span>
+            </Link>
           </nav>
         </header>
         {children}
