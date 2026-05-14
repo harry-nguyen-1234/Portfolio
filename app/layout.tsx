@@ -26,7 +26,7 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
     <html lang="en" className={`${montserrat.variable} ${poppins.variable} h-full antialiased px-6`}>
       <body className="min-h-full flex flex-col mx-auto w-full max-w-screen-2xl">
         <header className="py-8 flex justify-between">
-          <p>Logo</p>
+          <Link href='/'>Home</Link>
           <nav>
             <Link className="hyperlink text-lg p-4 -mr-4" href='/projects'>
               <span>Projects</span>
