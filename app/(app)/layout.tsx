@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { Montserrat, Poppins } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import { headers } from 'next/headers'
+import { getPayload } from 'payload'
+import config from '@payload-config'
+
 import GithubLink from "@/components/github-link";
 import LinkedinLink from "@/components/linkedin-link";
 
@@ -21,7 +25,10 @@ export const metadata: Metadata = {
   description: "Harry Nguyen's front-end development portfolio",
 };
 
-export default function RootLayout({ children, }: { children: React.ReactNode }) {
+export default async function RootLayout({ children, }: { children: React.ReactNode }) {
+  const payload = await getPayload({ config });
+  const { user } = await payload.auth({ headers: await headers() })
+
   return (
     <html lang="en" className={`${montserrat.variable} ${poppins.variable} h-full antialiased px-6`}>
       <body className="min-h-full flex flex-col mx-auto w-full max-w-screen-2xl">
@@ -31,6 +38,11 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
             <Link className="hyperlink text-lg p-4 -mr-4" href='/projects'>
               <span>Projects</span>
             </Link>
+            {user &&
+              <Link className="hyperlink text-lg p-4 -mr-4" href='/admin'>
+                <span>Admin</span>
+              </Link>
+            }
           </nav>
         </header>
         {children}
