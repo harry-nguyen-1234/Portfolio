@@ -1,4 +1,4 @@
-import CircleLink from "./circle-link";
+import CircleLink from "./CircleLink";
 
 export default function GithubLink() {
   return <CircleLink ariaLabel="Visit Harry's GitHub website" href="https://github.com/harry-nguyen-1234?tab=repositories">

@@ -6,8 +6,8 @@ import { headers } from 'next/headers'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-import GithubLink from "@/components/github-link";
-import LinkedinLink from "@/components/linkedin-link";
+import GithubLink from "@/components/GithubLink";
+import LinkedinLink from "@/components/LinkedinLink";
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',

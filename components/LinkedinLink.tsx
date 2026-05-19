@@ -1,4 +1,4 @@
-import CircleLink from "./circle-link";
+import CircleLink from "./CircleLink";
 
 export default function LinkedinLink() {
   return <CircleLink ariaLabel="Visit Harry's LinkedIn page" href="https://www.linkedin.com/in/harrynguyen2024/">
