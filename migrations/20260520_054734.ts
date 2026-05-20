@@ -59,8 +59,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE TABLE \`projects\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`title\` text NOT NULL,
+  	\`short_description\` text,
   	\`description\` text,
-  	\`project_image_id\` integer,
+  	\`external_link\` text DEFAULT 'https://www.google.com' NOT NULL,
+  	\`project_image_id\` integer NOT NULL,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	FOREIGN KEY (\`project_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null

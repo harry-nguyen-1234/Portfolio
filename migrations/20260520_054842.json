@@ -378,11 +378,25 @@
           "notNull": true,
           "autoincrement": false
         },
+        "short_description": {
+          "name": "short_description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "description": {
           "name": "description",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "external_link": {
+          "name": "external_link",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         },
         "project_image_id": {
@@ -1077,6 +1091,6 @@
   "internal": {
     "indexes": {}
   },
-  "id": "2e57b19e-9caf-4517-ac96-be23c089ca29",
+  "id": "02f74c66-3cad-4e54-a998-fe1d26a71254",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

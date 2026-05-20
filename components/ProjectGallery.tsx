@@ -10,9 +10,9 @@ function isMedia(val: unknown): val is Media {
 }
 
 function ProjectCard({ project }: { project: Project }) {
-    const projectImage = project["project-image"];
+    const projectImage = project["project_image"];
 
-    return <div className="rounded-2xl bg-surface p-6">
+    return <div className="rounded-2xl bg-surface p-6 flex flex-col gap-4">
         {isMedia(projectImage) &&
             <Image
                 src={projectImage.url!}
@@ -23,6 +23,7 @@ function ProjectCard({ project }: { project: Project }) {
                 loading="eager"
             />
         }
+        <h2 className="text-2xl font-semibold">{project.title}</h2>
     </div>
 }
 

@@ -378,6 +378,13 @@
           "notNull": true,
           "autoincrement": false
         },
+        "short_description": {
+          "name": "short_description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "description": {
           "name": "description",
           "type": "text",
@@ -385,11 +392,19 @@
           "notNull": false,
           "autoincrement": false
         },
+        "external_link": {
+          "name": "external_link",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'https://www.google.com'"
+        },
         "project_image_id": {
           "name": "project_image_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "updated_at": {
@@ -1077,6 +1092,6 @@
   "internal": {
     "indexes": {}
   },
-  "id": "3e24bdd1-59f3-4bfb-9c42-1773fe399e9b",
+  "id": "d0222d2e-54a6-459d-9145-f874db82a259",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

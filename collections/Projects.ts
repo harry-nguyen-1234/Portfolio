@@ -9,9 +9,12 @@ export const Projects: CollectionConfig = {
       required: true,
     },
     {
+      name: 'short_description',
+      type: 'text',
+    },
+    {
       name: 'description',
       type: 'richText',
-      required: true,
     },
     {
       name: 'tags',
@@ -21,7 +24,11 @@ export const Projects: CollectionConfig = {
       required: true,
     },
     {
-      name: 'project-image',
+      name: 'external_link',
+      type: 'text',
+    },
+    {
+      name: 'project_image',
       type: 'relationship',
       relationTo: 'media',
       required: true,

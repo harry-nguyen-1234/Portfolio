@@ -182,7 +182,8 @@ export interface ProjectTag {
 export interface Project {
   id: number;
   title: string;
-  description: {
+  short_description?: string | null;
+  description?: {
     root: {
       type: string;
       children: {
@@ -196,9 +197,10 @@ export interface Project {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
   tags: (number | ProjectTag)[];
-  'project-image': number | Media;
+  external_link?: string | null;
+  project_image: number | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -339,9 +341,11 @@ export interface ProjectTagsSelect<T extends boolean = true> {
  */
 export interface ProjectsSelect<T extends boolean = true> {
   title?: T;
+  short_description?: T;
   description?: T;
   tags?: T;
-  'project-image'?: T;
+  external_link?: T;
+  project_image?: T;
   updatedAt?: T;
   createdAt?: T;
 }
