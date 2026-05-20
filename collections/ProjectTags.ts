@@ -6,6 +6,7 @@ export const ProjectTags: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
+      required: true,
     },
   ],
 }

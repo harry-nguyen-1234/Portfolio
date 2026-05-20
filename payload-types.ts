@@ -171,7 +171,7 @@ export interface Media {
  */
 export interface ProjectTag {
   id: number;
-  title?: string | null;
+  title: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -181,8 +181,8 @@ export interface ProjectTag {
  */
 export interface Project {
   id: number;
-  title?: string | null;
-  description?: {
+  title: string;
+  description: {
     root: {
       type: string;
       children: {
@@ -196,9 +196,9 @@ export interface Project {
       version: number;
     };
     [k: string]: unknown;
-  } | null;
-  tags?: (number | ProjectTag)[] | null;
-  'project-image'?: (number | null) | Media;
+  };
+  tags: (number | ProjectTag)[];
+  'project-image': number | Media;
   updatedAt: string;
   createdAt: string;
 }
