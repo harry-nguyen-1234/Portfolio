@@ -36,11 +36,11 @@ export default async function RootLayout({ children, }: { children: React.ReactN
           <Link href='/'>Home</Link>
           <nav>
             <Link className="hyperlink text-lg p-4 -mr-4" href='/projects'>
-              <span>Projects</span>
+              <span className="hyperlink-text">Projects</span>
             </Link>
             {user &&
               <Link className="hyperlink text-lg p-4 -mr-4" href='/admin'>
-                <span>Admin</span>
+                <span className="hyperlink-text">Admin</span>
               </Link>
             }
           </nav>

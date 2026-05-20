@@ -43,21 +43,30 @@ h6 {
 }
 
 @layer components {
-  .hyperlink span {
-    @apply relative;
+  .hyperlink .hyperlink-text {
+    position: relative;
   }
 
-  .hyperlink span::after {
+  .hyperlink .hyperlink-text::after {
     content: "";
-    @apply absolute left-0 -bottom-2 h-0.5 w-0 bg-foreground transition-[width] duration-500 ease-out;
+    position: absolute;
+    left: 0;
+    bottom: -0.35em;
+    height: 0.145rem;
+    width: 0;
+    background-color: var(--color-foreground);
+    transition-property: width;
+    transition-duration: 300ms;
+    transition-timing-function: ease-out;
   }
 
-  .hyperlink:hover span::after,
-  .hyperlink:focus-visible span::after {
-    @apply w-full duration-150;
+  .hyperlink:hover .hyperlink-text::after,
+  .hyperlink:focus-visible .hyperlink-text::after {
+    width: 100%;
+    transition-duration: 150ms;
   }
 
   .hyperlink:focus-visible {
-    @apply outline-none;
+    outline: none;
   }
 }
