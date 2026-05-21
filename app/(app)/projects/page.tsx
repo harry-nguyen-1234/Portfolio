@@ -9,7 +9,7 @@ export default async function Projects() {
     const projectTags = (await payload.find({ collection: 'projectTags' })).docs;
 
     return <>
-        <main id="about-me" className="h-full container py-8 flex flex-col self-center grow">
+        <main className="h-full container py-8 flex flex-col self-center grow">
             <h1 className="font-bold text-5xl text-center">Projects</h1>
             <ProjectGallery projects={projects} projectTags={projectTags} />
         </main>
