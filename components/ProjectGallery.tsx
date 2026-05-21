@@ -12,6 +12,10 @@ function isMedia(val: unknown): val is Media {
     return typeof val === 'object' && val !== null && 'url' in val;
 }
 
+function isProjectTag(val: unknown): val is ProjectTag {
+    return typeof val === 'object' && val !== null && 'title' in val;
+}
+
 function ProjectCard({ project }: { project: Project }) {
     const { title, short_description, project_image, tags, external_link } = project;
     const projectDetailPageLink = `${usePathname()}/${project.id}`
@@ -34,8 +38,16 @@ function ProjectCard({ project }: { project: Project }) {
         <Link href={projectDetailPageLink} className="hyperlink self-start">
             <h2 className="hyperlink-text text-2xl font-semibold">{title}</h2>
         </Link>
+        <div className="flex items-center gap-2">
+            {/* Tags */}
+            {tags.filter(isProjectTag).map(tag =>
+                <span key={tag.id} className="text-sm bg-surface-raised p-2 px-4 rounded-xl">
+                    {tag.title}
+                </span>)}
+        </div>
         {shortDescriptionSplit && <p>{shortDescriptionSplit.length > maxWordCount ? shortDescriptionSplit.slice(0, maxWordCount).join(' ') + '...' : short_description}</p>}
         <div className="flex flex-col items-end gap-3">
+            {/* Hyperlinks for Read Details and View Project */}
             <Link className="hyperlink flex items-center gap-2" href={projectDetailPageLink}>
                 <span className="hyperlink-text">Read details</span>
                 <span className="sr-only">for {title}</span>
@@ -59,7 +71,7 @@ function ProjectCard({ project }: { project: Project }) {
     </div>
 }
 
-function ProjectTagButton({ tag, active, onClick }: { tag: ProjectTag, active: boolean, onClick: MouseEventHandler<HTMLButtonElement> }) {
+function ProjectTagFilterButton({ tag, active, onClick }: { tag: ProjectTag, active: boolean, onClick: MouseEventHandler<HTMLButtonElement> }) {
     return <button aria-label="project tag filter button" onClick={onClick} className=
         {clsx("px-4 py-2 border-solid border-2 border-transparent rounded-2xl",
             "hover:border-foreground transition-colors duration-200",
@@ -70,8 +82,6 @@ function ProjectTagButton({ tag, active, onClick }: { tag: ProjectTag, active: b
 }
 
 export default function ProjectGallery({ projects, projectTags }: { projects: Project[], projectTags: ProjectTag[] }) {
-    // projects.forEach(project => console.log(project));
-    // projectTags.forEach(projectTag => console.log(projectTag));
     const [activeTags, setActiveTags] = useState<ProjectTag['id'][]>([]);
 
     const toggleFilterTag = (clickedTagId: ProjectTag['id']) => {
@@ -82,6 +92,12 @@ export default function ProjectGallery({ projects, projectTags }: { projects: Pr
         );
     };
 
+    const isInFilter = (project: Project) => {
+        if (activeTags.length === 0) return true;
+        const projectTagIds = project.tags.filter(isProjectTag).map(tag => tag.id);
+        return activeTags.every(tagId => projectTagIds.includes(tagId));
+    };
+
     return <div className="flex flex-col gap-6">
         <div id="project-tag-filter" className="flex gap-4 items-center">
             <svg className="w-6 h-6" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none"
@@ -89,14 +105,11 @@ export default function ProjectGallery({ projects, projectTags }: { projects: Pr
                 <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
             </svg>
             {projectTags.map(tag => (
-                <ProjectTagButton key={tag.id} tag={tag} active={activeTags.includes(tag.id)} onClick={() => { toggleFilterTag(tag.id) }} />
+                <ProjectTagFilterButton key={tag.id} tag={tag} active={activeTags.includes(tag.id)} onClick={() => { toggleFilterTag(tag.id) }} />
             ))}
         </div>
         <div id="project-listing" className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {/* {!activeTags ?
-                projects.map(project => <ProjectCard key={project.id} project={project} />)
-                : ""} */}
-            {projects.map(project => <ProjectCard key={project.id} project={project} />)}
+            {projects.filter(isInFilter).map(project => <ProjectCard key={project.id} project={project} />)}
         </div>
     </div>
 }
