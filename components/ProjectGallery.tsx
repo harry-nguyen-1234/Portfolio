@@ -7,16 +7,6 @@ import { isProjectTag } from "@/utils/utils";
 import ProjectCard from "./ProjectCard";
 import ProjectTagFilterButton from "./ProjectTagFilterButton";
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-  },
-  exit: {
-    opacity: 0,
-  },
-};
-
 export default function ProjectGallery({ projects, projectTags }: { projects: Project[], projectTags: ProjectTag[] }) {
   const [activeTags, setActiveTags] = useState<ProjectTag['id'][]>([]);
 
@@ -49,10 +39,10 @@ export default function ProjectGallery({ projects, projectTags }: { projects: Pr
     <AnimatePresence mode="wait">
       <motion.div
         key={activeTags.join(',')}
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
         className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
       >
         {projects.filter(isInFilter).map(project => (<ProjectCard key={project.id} project={project} />))}
