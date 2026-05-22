@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Project } from "@/payload-types";
-import { isMedia, isProjectTag } from "@/utils/utils";
+import { isMedia } from "@/utils/utils";
+import ProjectTagList from "./ProjectTagList";
 
 export default function ProjectCard({ project }: { project: Project }) {
   const { title, short_description, project_image, tags, external_link } = project;
@@ -29,18 +30,14 @@ export default function ProjectCard({ project }: { project: Project }) {
       <h2 className="hyperlink-text text-2xl font-semibold">{title}</h2>
     </Link>
     <div className="flex items-center gap-2">
-      {/* Tags */}
-      {tags.filter(isProjectTag).map(tag =>
-        <span key={tag.id} className="text-sm bg-surface-raised p-2 px-4 rounded-xl">
-          {tag.title}
-        </span>)}
+      <ProjectTagList tags={tags} />
     </div>
     {shortDescriptionSplit && <p>{shortDescriptionSplit.length > maxWordCount ? shortDescriptionSplit.slice(0, maxWordCount).join(' ') + '...' : short_description}</p>}
     <div className="flex flex-col items-end gap-3">
       {/* Hyperlinks for Read Details and View Project */}
       <Link className="hyperlink flex items-center gap-2" href={projectDetailPageLink}>
         <span className="hyperlink-text">Read details</span>
-        <span className="sr-only">for {title}</span>
+        <span className="sr-only">for project {title}</span>
         <svg aria-hidden="true" className="h-6 w-6" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none"
           strokeLinecap="round" strokeLinejoin="round">
           <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -49,7 +46,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       </Link>
       {external_link && <Link className="hyperlink flex items-center gap-2" href={external_link} target="_blank" rel="noopener noreferrer">
         <span className="hyperlink-text">View project</span>
-        <span className="sr-only">opens {title} in new tab</span>
+        <span className="sr-only">opens external link for project {title} in new tab</span>
         <svg aria-hidden="true" className="h-6 w-6" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none"
           strokeLinecap="round" strokeLinejoin="round">
           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>

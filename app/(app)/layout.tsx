@@ -1,5 +1,6 @@
-import { Montserrat, Poppins } from "next/font/google";
 import "./globals.css";
+import clsx from "clsx";
+import { Montserrat, Poppins } from "next/font/google";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { headers } from 'next/headers';
@@ -20,7 +21,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Harry Nguyen",
-  description: "Harry Nguyen's front-end development portfolio",
+  description: "Harry Nguyen's software development portfolio",
 };
 
 export default async function RootLayout({ children, }: { children: React.ReactNode }) {
@@ -33,7 +34,7 @@ export default async function RootLayout({ children, }: { children: React.ReactN
         <header className="py-8 flex justify-between">
           <Link href='/'>Home</Link>
           <nav>
-            <Link className="hyperlink text-lg p-4 -mr-4" href='/projects'>
+            <Link className={clsx("hyperlink text-lg p-4", !user && "-mr-4")} href='/projects'>
               <span className="hyperlink-text">Projects</span>
             </Link>
             {user &&
