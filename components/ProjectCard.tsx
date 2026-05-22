@@ -14,7 +14,7 @@ export default function ProjectCard({ project }: { project: Project }) {
 
   return <div className="rounded-2xl bg-surface p-6 pt-8 flex flex-col gap-4">
     {isMedia(project_image) &&
-      <Link href={projectDetailPageLink}>
+      <Link href={external_link ?? projectDetailPageLink} target={external_link ? "_blank" : undefined} rel={external_link ? "noopener noreferrer" : undefined}>
         <Image
           src={project_image.url!}
           alt={project_image.alt!}
@@ -25,7 +25,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         />
       </Link>
     }
-    <Link href={projectDetailPageLink} className="hyperlink self-start">
+    <Link href={external_link ?? projectDetailPageLink} className="hyperlink self-start" target={external_link ? "_blank" : undefined} rel={external_link ? "noopener noreferrer" : undefined}>
       <h2 className="hyperlink-text text-2xl font-semibold">{title}</h2>
     </Link>
     <div className="flex items-center gap-2">
