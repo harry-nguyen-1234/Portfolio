@@ -4,16 +4,18 @@ import { motion } from 'motion/react';
 import {
   Application,
   extend,
+  useApplication,
+  useTick,
 } from '@pixi/react';
 import {
   Container,
-  FillGradient,
   Graphics,
   Sprite,
-  Texture
+  Texture,
+  FillGradient
 } from 'pixi.js';
+import { useEffect, useMemo, useRef } from 'react';
 
-// extend tells @pixi/react what Pixi.js components are available
 extend({
   Container,
   Graphics,
@@ -22,37 +24,95 @@ extend({
   FillGradient
 });
 
-const canvas = document.createElement('canvas');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-const context = canvas.getContext('2d')!;
-const radialGradientRatio = 0.75;
-const minBubbleRadius = 25;
-const maxBubbleRadius = 50;
-const bubbleX = Math.floor(Math.random() * canvas.width);
-const bubbleY = Math.floor(Math.random() * canvas.height);
-const bubbleRadius = Math.max(Math.round(Math.random() * maxBubbleRadius), minBubbleRadius);
-const x0 = bubbleX;
-const y0 = bubbleY;
-const x1 = x0;
-const y1 = y0;
-const r0 = bubbleRadius * radialGradientRatio;
-const r1 = bubbleRadius;
-const grad = context.createRadialGradient(x0, y0, r0, x1, y1, r1);
-const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--color-background').trim();
-const bubbleColor = getComputedStyle(document.documentElement).getPropertyValue('--color-foreground').trim();
-grad.addColorStop(0, backgroundColor);
-grad.addColorStop(1, bubbleColor);
-context.beginPath();
-context.arc(bubbleX, bubbleY, bubbleRadius, 0, 2 * Math.PI);
-context.fillStyle = grad;
-context.fill();
-const texture = Texture.from(canvas);
+interface BubbleData {
+  dx: number;
+  dy: number;
+}
+
+const NUM_BUBBLES = 100;
+const BASE_BUBBLE_RADIUS = 50;
+const SPEED_MULT = 2;
+
+function BubbleContainer() {
+  const { app, isInitialised } = useApplication();
+  const containerRef = useRef<Container>(null);
+  const bubblesRef = useRef<BubbleData[]>([]);
+
+  const bubbleTexture = useMemo(() => {
+    const backgroundColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--color-background').trim();
+    const foregroundColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--color-foreground').trim();
+    const radialGradientRatio = 0.75;
+    const size = BASE_BUBBLE_RADIUS * 2;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const context = canvas.getContext('2d')!;
+    const grad = context.createRadialGradient(
+      BASE_BUBBLE_RADIUS, BASE_BUBBLE_RADIUS, BASE_BUBBLE_RADIUS * radialGradientRatio,
+      BASE_BUBBLE_RADIUS, BASE_BUBBLE_RADIUS, BASE_BUBBLE_RADIUS,
+    );
+    grad.addColorStop(0, backgroundColor);
+    grad.addColorStop(1, foregroundColor);
+    context.beginPath();
+    context.arc(BASE_BUBBLE_RADIUS, BASE_BUBBLE_RADIUS, BASE_BUBBLE_RADIUS, 0, Math.PI * 2);
+    context.fillStyle = grad;
+    context.fill();
+    return Texture.from(canvas);
+  }, []);
+
+  useEffect(() => {
+    if (!isInitialised || !containerRef.current) return;
+    const container = containerRef.current;
+
+    for (let i = 0; i < NUM_BUBBLES; i++) {
+      const bubble = new Sprite(bubbleTexture);
+      bubble.anchor.set(0.5);
+      bubble.x = Math.random() * app.screen.width;
+      bubble.y = Math.random() * app.screen.height;
+      bubble.scale = Math.max(Math.random(), 0.5);
+      container.addChild(bubble);
+      bubblesRef.current.push({
+        dx: (Math.random() - 0.5) * SPEED_MULT,
+        dy: (Math.random() - 0.5) * SPEED_MULT,
+      });
+    }
+
+    return () => {
+      container.removeChildren();
+      bubblesRef.current = [];
+    };
+  }, [isInitialised, bubbleTexture]);
+
+  useTick(() => {
+    if (!containerRef.current) return;
+
+    containerRef.current.children.forEach((child, i) => {
+      const data = bubblesRef.current[i];
+      const radius = BASE_BUBBLE_RADIUS * child.scale.x;
+
+      child.x += data.dx;
+      child.y += data.dy;
+
+      if (child.x + radius > app.screen.width) child.x = app.screen.width - radius;
+      else if (child.x - radius < 0) child.x = radius;
+
+      if (child.y + radius > app.screen.height) child.y = app.screen.height - radius;
+      else if (child.y - radius < 0) child.y = radius;
+
+      if (child.x + radius >= app.screen.width || child.x - radius <= 0) data.dx = -data.dx;
+      if (child.y + radius >= app.screen.height || child.y - radius <= 0) data.dy = -data.dy;
+    });
+  });
+
+  return <pixiContainer ref={containerRef} />;
+}
 
 export default function Canvas() {
-  return <motion.div className="-z-10" initial={{ opacity: 0 }} animate={{ opacity: 0.2 }} transition={{ duration: 1 }}>
-    <Application className='absolute top-0 left-0' resizeTo={window} backgroundColor={backgroundColor}>
-      <pixiSprite texture={texture}></pixiSprite>
+  return <motion.div className="-z-10" initial={{ opacity: 0 }} animate={{ opacity: 0.2 }} transition={{ duration: 1, ease: 'easeIn' }}>
+    <Application className='absolute top-0 left-0' resizeTo={window}>
+      <BubbleContainer />
     </Application>
   </motion.div>;
 }
