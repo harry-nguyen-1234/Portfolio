@@ -34,7 +34,7 @@ interface BubbleData {
 }
 
 const NUM_BUBBLES = 100;
-const BASE_BUBBLE_RADIUS = 60;
+const BASE_BUBBLE_RADIUS = 50;
 const SPEED_MULT = 2;
 const MIN_SPEED = 0.5;
 const MAX_SPEED = 10;
