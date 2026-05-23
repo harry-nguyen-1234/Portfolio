@@ -45,7 +45,7 @@ export default async function RootLayout({ children, }: { children: React.ReactN
           </nav>
         </header>
         {children}
-        <footer className="py-8 flex flex-col justify-between gap-4 sm:flex-row">
+        <footer className="py-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
           © Harry Nguyen 2026
           <div className="flex justify-end gap-4">
             {/* Social media links */}
