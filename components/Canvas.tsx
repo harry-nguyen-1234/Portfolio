@@ -43,16 +43,17 @@ const BASE_ALPHA = 0.2;
 const MAX_ALPHA = 0.6;
 const ALPHA_DECAY_RATE = 0.99;
 
+const backgroundColor = getComputedStyle(document.documentElement)
+  .getPropertyValue('--color-background').trim();
+const foregroundColor = getComputedStyle(document.documentElement)
+  .getPropertyValue('--color-foreground').trim();
+
 function BubbleContainer() {
   const { app, isInitialised } = useApplication();
   const containerRef = useRef<Container>(null);
   const bubblesRef = useRef<BubbleData[]>([]);
 
   const bubbleTexture = useMemo(() => {
-    const backgroundColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--color-background').trim();
-    const foregroundColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--color-foreground').trim();
     const radialGradientRatio = 0.75;
     const size = BASE_BUBBLE_RADIUS * 2;
     const canvas = document.createElement('canvas');
@@ -141,7 +142,7 @@ function BubbleContainer() {
 
 export default function Canvas() {
   return <motion.div className="-z-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, ease: 'easeIn' }}>
-    <Application className='absolute top-0 left-0' resizeTo={window}>
+    <Application className='absolute top-0 left-0' resizeTo={window} backgroundColor={backgroundColor}>
       <BubbleContainer />
     </Application>
   </motion.div>;
