@@ -7,6 +7,7 @@ import { headers } from 'next/headers';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import CircleLink from "@/components/CircleLink";
+import CanvasWrapper from "@/components/CanvasWrapper";
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
@@ -31,6 +32,7 @@ export default async function RootLayout({ children, }: { children: React.ReactN
   return (
     <html lang="en" className={`${montserrat.variable} ${poppins.variable} h-full antialiased px-6`}>
       <body className="min-h-full flex flex-col mx-auto w-full max-w-screen-2xl">
+        <CanvasWrapper />
         <header className="py-8 flex justify-between">
           <Link href='/'>Home</Link>
           <nav>
