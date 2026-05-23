@@ -12,7 +12,8 @@ import {
   Graphics,
   Sprite,
   Texture,
-  FillGradient
+  FillGradient,
+  Circle
 } from 'pixi.js';
 import { useEffect, useMemo, useRef } from 'react';
 
@@ -27,11 +28,20 @@ extend({
 interface BubbleData {
   dx: number;
   dy: number;
+  speed: number;
+  baseSpeed: number;
+  alpha: number;
 }
 
 const NUM_BUBBLES = 100;
-const BASE_BUBBLE_RADIUS = 50;
+const BASE_BUBBLE_RADIUS = 60;
 const SPEED_MULT = 2;
+const MIN_SPEED = 0.5;
+const MAX_SPEED = 10;
+const SPEED_DECAY_RATE = 0.99;
+const BASE_ALPHA = 0.2;
+const MAX_ALPHA = 0.6;
+const ALPHA_DECAY_RATE = 0.99;
 
 function BubbleContainer() {
   const { app, isInitialised } = useApplication();
@@ -72,10 +82,26 @@ function BubbleContainer() {
       bubble.x = Math.random() * app.screen.width;
       bubble.y = Math.random() * app.screen.height;
       bubble.scale = Math.max(Math.random(), 0.5);
+      bubble.hitArea = new Circle(0, 0, BASE_BUBBLE_RADIUS * 2);
+      bubble.eventMode = 'dynamic';
+      bubble.alpha = BASE_ALPHA;
       container.addChild(bubble);
+
+      const baseSpeed = Math.max(MIN_SPEED, Math.random() * SPEED_MULT);
+      const angle = Math.random() * Math.PI * 2;
+
       bubblesRef.current.push({
-        dx: (Math.random() - 0.5) * SPEED_MULT,
-        dy: (Math.random() - 0.5) * SPEED_MULT,
+        baseSpeed: baseSpeed,
+        speed: baseSpeed,
+        dx: Math.cos(angle),
+        dy: Math.sin(angle),
+        alpha: BASE_ALPHA,
+      });
+
+      bubble.on('pointerenter', () => {
+        const data = bubblesRef.current[i];
+        data.speed = MAX_SPEED;
+        data.alpha = MAX_ALPHA;
       });
     }
 
@@ -85,15 +111,19 @@ function BubbleContainer() {
     };
   }, [isInitialised, bubbleTexture]);
 
-  useTick(() => {
+  useTick((ticker) => {
     if (!containerRef.current) return;
 
     containerRef.current.children.forEach((child, i) => {
       const data = bubblesRef.current[i];
       const radius = BASE_BUBBLE_RADIUS * child.scale.x;
 
-      child.x += data.dx;
-      child.y += data.dy;
+      data.speed = Math.max(data.baseSpeed, data.speed * Math.pow(SPEED_DECAY_RATE, ticker.deltaTime));
+      data.alpha = Math.max(BASE_ALPHA, data.alpha * Math.pow(ALPHA_DECAY_RATE, ticker.deltaTime))
+
+      child.x += (data.speed * data.dx);
+      child.y += (data.speed * data.dy);
+      child.alpha = data.alpha;
 
       if (child.x + radius > app.screen.width) child.x = app.screen.width - radius;
       else if (child.x - radius < 0) child.x = radius;
@@ -110,7 +140,7 @@ function BubbleContainer() {
 }
 
 export default function Canvas() {
-  return <motion.div className="-z-10" initial={{ opacity: 0 }} animate={{ opacity: 0.2 }} transition={{ duration: 1, ease: 'easeIn' }}>
+  return <motion.div className="-z-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, ease: 'easeIn' }}>
     <Application className='absolute top-0 left-0' resizeTo={window}>
       <BubbleContainer />
     </Application>
