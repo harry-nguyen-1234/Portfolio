@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import "./globals.css";
 import clsx from "clsx";
 import { Montserrat, Poppins } from "next/font/google";
@@ -28,8 +26,6 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children, }: { children: React.ReactNode }) {
-  const payload = await getPayload({ config });
-  const { user } = await payload.auth({ headers: await headers() })
 
   return (
     <html lang="en" className={`${montserrat.variable} ${poppins.variable} h-full antialiased px-6`}>
@@ -43,17 +39,12 @@ export default async function RootLayout({ children, }: { children: React.ReactN
             <span className="hyperlink-text">Home</span>
           </Link>
           <nav>
-            <Link className={clsx("hyperlink text-lg p-4 flex items-center gap-2", !user && "-mr-4")} href='/projects'>
+            <Link className="hyperlink text-lg p-4 flex items-center gap-2" href='/projects'>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
               </svg>
               <span className="hyperlink-text">Projects</span>
             </Link>
-            {user &&
-              <Link className="hyperlink text-lg p-4 -mr-4" href='/admin'>
-                <span className="hyperlink-text">Admin</span>
-              </Link>
-            }
           </nav>
         </header>
         {children}
