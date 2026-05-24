@@ -29,7 +29,7 @@ export default buildConfig({
   db: mongooseAdapter({
     // Mongoose-specific arguments go here.
     // URL is required.
-    url: process.env.MONGO_URL,
+    url: process.env.MONGO_URL!,
   }),
   sharp,
   plugins: [],
