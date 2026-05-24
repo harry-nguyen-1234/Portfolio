@@ -1,11 +1,9 @@
 import "./globals.css";
-import clsx from "clsx";
 import { Montserrat, Poppins } from "next/font/google";
 import type { Metadata } from "next";
+import { userAgent } from "next/server";
 import Link from "next/link";
 import { headers } from 'next/headers';
-import { getPayload } from 'payload';
-import config from '@payload-config';
 import CircleLink from "@/components/CircleLink";
 import CanvasWrapper from "@/components/CanvasWrapper";
 
@@ -26,11 +24,13 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children, }: { children: React.ReactNode }) {
+  const headersList = await headers();
+  const { device } = userAgent({ headers: headersList });
 
   return (
     <html lang="en" className={`${montserrat.variable} ${poppins.variable} h-full antialiased px-6`}>
       <body className="min-h-full flex flex-col mx-auto w-full max-w-screen-2xl">
-        <CanvasWrapper />
+        {device.type !== 'mobile' && <CanvasWrapper />}
         <header className="py-8 flex justify-between">
           <Link className="hyperlink text-lg p-4 -ml-4 flex items-center gap-2" href='/'>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
