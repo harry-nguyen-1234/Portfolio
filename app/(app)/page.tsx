@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return <main className="h-full container py-8 flex flex-col justify-center self-center grow max-w-5xl">
@@ -12,6 +13,12 @@ export default function Home() {
         <p>
           I like building things that feel good to use, and also have a keen interest in UI polish and performance.
         </p>
+        <Link className='hyperlink flex items-center gap-2' href='/projects'>
+          <p className="hyperlink-text">View my projects</p>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+          </svg>
+        </Link>
         <h2 className="font-bold text-4xl mt-6">Skills</h2>
         <ul className="list-disc list-inside">
           <li>JavaScript/TypeScript, Python</li>
