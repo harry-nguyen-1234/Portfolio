@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import "./globals.css";
 import clsx from "clsx";
 import { Montserrat, Poppins } from "next/font/google";

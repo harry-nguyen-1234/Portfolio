@@ -1,7 +1,8 @@
+export const dynamic = 'force-dynamic';
+
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import ProjectGallery from '@/components/ProjectGallery';
-
 
 export default async function Projects() {
     const payload = await getPayload({ config });
