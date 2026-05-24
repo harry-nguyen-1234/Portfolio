@@ -33,14 +33,13 @@ interface BubbleData {
   alpha: number;
 }
 
-const NUM_BUBBLES = 100;
 const BASE_BUBBLE_RADIUS = 50;
 const SPEED_MULT = 2;
 const MIN_SPEED = 0.5;
-const MAX_SPEED = 10;
+const MAX_SPEED = 12;
 const SPEED_DECAY_RATE = 0.99;
-const BASE_ALPHA = 0.2;
-const MAX_ALPHA = 0.6;
+const BASE_ALPHA = 0.1;
+const MAX_ALPHA = 0.9;
 const ALPHA_DECAY_RATE = 0.99;
 
 const backgroundColor = getComputedStyle(document.documentElement)
@@ -52,6 +51,13 @@ function BubbleContainer() {
   const { app, isInitialised } = useApplication();
   const containerRef = useRef<Container>(null);
   const bubblesRef = useRef<BubbleData[]>([]);
+
+  const numBubbles = [
+    { breakpoint: 1440, count: 100 },
+    { breakpoint: 1024, count: 75 },
+    { breakpoint: 768, count: 50 },
+    { breakpoint: 0, count: 10 },
+  ].find(({ breakpoint }) => window.innerWidth >= breakpoint)?.count ?? 10;
 
   const bubbleTexture = useMemo(() => {
     const radialGradientRatio = 0.75;
@@ -77,7 +83,7 @@ function BubbleContainer() {
     if (!isInitialised || !containerRef.current) return;
     const container = containerRef.current;
 
-    for (let i = 0; i < NUM_BUBBLES; i++) {
+    for (let i = 0; i < numBubbles; i++) {
       const bubble = new Sprite(bubbleTexture);
       bubble.anchor.set(0.5);
       bubble.x = Math.random() * app.screen.width;
@@ -141,8 +147,8 @@ function BubbleContainer() {
 }
 
 export default function Canvas() {
-  return <motion.div className="-z-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, ease: 'easeIn' }}>
-    <Application className='absolute top-0 left-0' resizeTo={window} backgroundColor={backgroundColor}>
+  return <motion.div className="-z-10 fixed inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, ease: 'easeIn' }}>
+    <Application className='absolute top-0 left-0' width={window.innerWidth} height={window.innerHeight} backgroundColor={backgroundColor}>
       <BubbleContainer />
     </Application>
   </motion.div>;
