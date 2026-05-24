@@ -30,7 +30,7 @@ export default buildConfig({
   db: process.env.MONGO_URL ? mongooseAdapter({
     // Mongoose-specific arguments go here.
     // URL is required.
-    url: process.env.MONGO_URL!,
+    url: process.env.MONGO_URL,
   }) : sqliteAdapter({
     // SQLite-specific arguments go here.
     // `client.url` is required.
