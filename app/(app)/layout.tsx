@@ -28,8 +28,8 @@ export default async function RootLayout({ children, }: { children: React.ReactN
   const { device } = userAgent({ headers: headersList });
 
   return (
-    <html lang="en" className={`${montserrat.variable} ${poppins.variable} h-full antialiased px-6`}>
-      <body className="min-h-full flex flex-col mx-auto w-full max-w-screen-2xl">
+    <html lang="en" className={`${montserrat.variable} ${poppins.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col mx-auto w-full max-w-screen-2xl px-6">
         {device.type !== 'mobile' && <CanvasWrapper />}
         <header className="py-8 flex justify-between">
           <Link className="hyperlink text-lg p-4 -ml-4 flex items-center gap-2" href='/'>
