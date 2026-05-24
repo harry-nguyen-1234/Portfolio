@@ -13,6 +13,9 @@ import { Projects } from "./collections/Projects";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+const mongoUrl = process.env.MONGO_URL;
+if (!mongoUrl) throw new Error('MONGO_URL is not defined');
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -29,7 +32,7 @@ export default buildConfig({
   db: mongooseAdapter({
     // Mongoose-specific arguments go here.
     // URL is required.
-    url: process.env.MONGO_URL,
+    url: mongoUrl,
   }),
   sharp,
   plugins: [],
