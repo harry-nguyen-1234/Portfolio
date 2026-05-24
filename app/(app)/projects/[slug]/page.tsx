@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic';
 
+import clsx from 'clsx';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import { RichText } from '@payloadcms/richtext-lexical/react'
@@ -56,7 +57,10 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
         />
       }
       {description &&
-        <RichText className="flex flex-col gap-4" data={description} />
+        <RichText className={clsx("flex flex-col gap-2",
+          "prose prose-custom",
+          "prose-p:m-0 prose-p:text-base")}
+          data={description} />
       }
     </div>
   </>
