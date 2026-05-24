@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "^3.84.1",
+    "@payloadcms/db-sqlite": "^3.84.1",
     "@payloadcms/next": "^3.84.1",
     "@payloadcms/richtext-lexical": "^3.84.1",
     "@pixi/react": "^8.0.5",

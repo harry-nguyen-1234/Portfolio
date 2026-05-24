@@ -1,4 +1,5 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { sqliteAdapter } from '@payloadcms/db-sqlite';
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { buildConfig } from "payload";
@@ -26,10 +27,16 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
-  db: mongooseAdapter({
+  db: process.env.MONGO_URL ? mongooseAdapter({
     // Mongoose-specific arguments go here.
     // URL is required.
     url: process.env.MONGO_URL!,
+  }) : sqliteAdapter({
+    // SQLite-specific arguments go here.
+    // `client.url` is required.
+    client: {
+      url: 'file:./portfolio.db',
+    },
   }),
   sharp,
   plugins: [],
