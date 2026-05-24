@@ -33,10 +33,8 @@ interface BubbleData {
   alpha: number;
 }
 
-const BASE_BUBBLE_RADIUS = 50;
-const SPEED_MULT = 2;
-const MIN_SPEED = 0.5;
-const MAX_SPEED = 12;
+const BASE_BUBBLE_RADIUS = 60;
+const MAX_SPEED = 10;
 const SPEED_DECAY_RATE = 0.99;
 const BASE_ALPHA = 0.1;
 const MAX_ALPHA = 0.9;
@@ -53,9 +51,9 @@ function BubbleContainer() {
   const bubblesRef = useRef<BubbleData[]>([]);
 
   const numBubbles = [
-    { breakpoint: 1440, count: 100 },
-    { breakpoint: 1024, count: 75 },
-    { breakpoint: 768, count: 50 },
+    { breakpoint: 1440, count: 60 },
+    { breakpoint: 1024, count: 40 },
+    { breakpoint: 768, count: 20 },
     { breakpoint: 0, count: 10 },
   ].find(({ breakpoint }) => window.innerWidth >= breakpoint)?.count ?? 10;
 
@@ -89,12 +87,12 @@ function BubbleContainer() {
       bubble.x = Math.random() * app.screen.width;
       bubble.y = Math.random() * app.screen.height;
       bubble.scale = Math.max(Math.random(), 0.5);
-      bubble.hitArea = new Circle(0, 0, BASE_BUBBLE_RADIUS * 2);
+      bubble.hitArea = new Circle(0, 0, BASE_BUBBLE_RADIUS * 3);
       bubble.eventMode = 'dynamic';
       bubble.alpha = BASE_ALPHA;
       container.addChild(bubble);
 
-      const baseSpeed = Math.max(MIN_SPEED, Math.random() * SPEED_MULT);
+      const baseSpeed = (1 / bubble.scale.x);
       const angle = Math.random() * Math.PI * 2;
 
       bubblesRef.current.push({
@@ -126,10 +124,11 @@ function BubbleContainer() {
       const radius = BASE_BUBBLE_RADIUS * child.scale.x;
 
       data.speed = Math.max(data.baseSpeed, data.speed * Math.pow(SPEED_DECAY_RATE, ticker.deltaTime));
-      data.alpha = Math.max(BASE_ALPHA, data.alpha * Math.pow(ALPHA_DECAY_RATE, ticker.deltaTime))
 
       child.x += (data.speed * data.dx);
       child.y += (data.speed * data.dy);
+
+      data.alpha = Math.max(BASE_ALPHA, data.alpha * Math.pow(ALPHA_DECAY_RATE, ticker.deltaTime))
       child.alpha = data.alpha;
 
       if (child.x + radius > app.screen.width) child.x = app.screen.width - radius;
