@@ -49,7 +49,7 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
         />
       }
       {description &&
-        <RichText className={clsx("flex flex-col gap-2",
+        <RichText className={clsx("flex flex-col gap-2 backdrop-blur-sm",
           "prose prose-custom max-w-none",
           "prose-p:m-0 prose-p:text-base")}
           data={description} />
