@@ -44,14 +44,17 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
           alt={project_image.alt!}
           width={project_image.width!}
           height={project_image.height!}
-          className="rounded-2xl w-full"
+          className="rounded-2xl w-full max-w-xl lg:max-w-none justify-self-center"
           loading="eager"
         />
       }
       {description &&
         <RichText className={clsx("flex flex-col gap-2 backdrop-blur-sm",
           "prose prose-custom max-w-none",
-          "prose-p:m-0 prose-p:text-base")}
+          "prose-p:m-0 prose-p:text-base",
+          "prose-h2:not-first:my-[1em]",
+          "prose-h3:not-first:my-[0.5em]",
+        )}
           data={description} />
       }
     </div>
