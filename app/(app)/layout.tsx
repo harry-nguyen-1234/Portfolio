@@ -29,7 +29,7 @@ export default async function RootLayout({ children, }: { children: React.ReactN
 
   return (
     <html lang="en" className={`${montserrat.variable} ${poppins.variable} h-full antialiased scrollbar-gutter-stable`}>
-      <body className="min-h-full flex flex-col mx-auto w-full max-w-screen-2xl">
+      <body className="h-full flex flex-col">
         {device.type !== 'mobile' && <CanvasWrapper />}
         <Header />
         {children}
