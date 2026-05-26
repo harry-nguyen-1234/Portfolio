@@ -33,8 +33,8 @@ interface BubbleData {
 }
 
 const BASE_BUBBLE_RADIUS = 60;
-const SPEED_MULT = 2;
-const MAX_SPEED = 15;
+const BASE_SPEED_MULT = 0.5;
+const MAX_SPEED = 10;
 const SPEED_DECAY_RATE = 0.99;
 const BASE_ALPHA = 0.1;
 const MAX_ALPHA = 0.9;
@@ -91,7 +91,7 @@ function BubbleContainer() {
       bubble.alpha = BASE_ALPHA;
       container.addChild(bubble);
 
-      const baseSpeed = (1 / bubble.scale.x) * SPEED_MULT;
+      const baseSpeed = (1 / bubble.scale.x) * BASE_SPEED_MULT;
       const angle = Math.random() * Math.PI * 2;
 
       bubblesRef.current.push({
