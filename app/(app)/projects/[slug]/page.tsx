@@ -20,14 +20,14 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
   });
   const { title, description, project_image, tags, external_link } = project;
 
-  return <>
-    <div className='flex justify-between'>
+  return <main>
+    <div className='flex justify-end sm:justify-between'>
       {/* Back to Projects and View Project hyperlinks */}
-      <Link className="hyperlink flex items-center gap-2" href="/projects">
+      <Link className="hyperlink hidden sm:flex items-center gap-2" href="/projects">
         <HiOutlineArrowLeft className="size-6" />
         <span className="hyperlink-text">Back to Projects</span>
       </Link>
-      {external_link && <Link className="hyperlink hidden sm:flex items-center gap-2" href={external_link} target="_blank" rel="noopener noreferrer">
+      {external_link && <Link className="hyperlink flex items-center gap-2" href={external_link} target="_blank" rel="noopener noreferrer">
         <span className="hyperlink-text">View project</span>
         <span className="sr-only">opens external link for {title} in new tab</span>
         <HiOutlineExternalLink className="size-6" />
@@ -58,5 +58,5 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
           data={description} />
       }
     </div>
-  </>
+  </main>
 }
