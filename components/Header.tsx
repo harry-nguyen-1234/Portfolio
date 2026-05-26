@@ -29,14 +29,14 @@ function NavLinks({ onClick }: { onClick?: MouseEventHandler<HTMLAnchorElement> 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  return <header className="py-3 sm:py-8 flex justify-center sticky top-0 z-10 bg-background/90">
+  return <header className="py-4 sm:py-8 px-6 flex justify-center sticky top-0 z-10 bg-background/90">
     <div className="flex justify-end w-full max-w-screen-2xl">
       {/* Desktop nav menu */}
       <nav className="hidden sm:flex justify-between w-full" aria-label="desktop-navigation">
         <NavLinks />
       </nav>
       <button
-        className="sm:hidden p-4 ml-auto"
+        className="sm:hidden p-1 ml-auto rounded-full border-foreground border-2"
         onClick={() => setMenuOpen(!menuOpen)}
         aria-label={menuOpen ? 'Close menu' : 'Open menu'}
       >
@@ -70,7 +70,7 @@ export default function Header() {
         {
           menuOpen &&
           <motion.nav key="mobile-nav"
-            className="sm:hidden fixed top-20 left-0 right-0 flex flex-col bg-surface z-20"
+            className="sm:hidden fixed top-17 left-0 right-0 flex flex-col bg-surface z-20"
             initial={{ opacity: 0, scale: 0.8, transformOrigin: 'top' }}
             animate={{ opacity: 1, scale: 1, transformOrigin: 'top' }}
             exit={{ opacity: 0, scale: 0.8, transformOrigin: 'top' }}
