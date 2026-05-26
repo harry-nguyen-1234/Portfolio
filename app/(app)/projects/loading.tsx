@@ -26,7 +26,7 @@ function ProjectCardSkeleton() {
 export default function Loading() {
   return (
     <SkeletonTheme baseColor="var(--color-surface)" highlightColor='var(--color-surface-raised)' borderRadius="1rem">
-      <main className="h-full container py-8 flex flex-col self-center grow gap-8 md:gap-12">
+      <main className="h-full py-8 flex flex-col self-center grow gap-8 md:gap-12">
         <h1 className="font-bold text-5xl text-center">Projects</h1>
         {/* filter bar */}
         <div className="flex gap-4 items-center">

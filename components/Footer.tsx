@@ -2,7 +2,7 @@ import { FiGithub, FiLinkedin } from "react-icons/fi";
 import CircleLink from "./CircleLink";
 
 export default function Footer() {
-  return <footer className="py-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
+  return <footer className="py-8 px-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
     © Harry Nguyen 2026
     <div className="flex justify-end gap-4">
       {/* Social media links */}
