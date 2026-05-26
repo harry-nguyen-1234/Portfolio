@@ -1,5 +1,6 @@
 'use client'
 
+import { HiOutlineFilter } from "react-icons/hi";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Project, ProjectTag } from "@/payload-types";
@@ -27,10 +28,7 @@ export default function ProjectGallery({ projects, projectTags }: { projects: Pr
   return <div className="flex flex-col gap-6">
     <div className="flex gap-4 items-center">
       {/* Project tag filter */}
-      <svg className="w-6 h-6" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none"
-        strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-      </svg>
+      <HiOutlineFilter className="size-6" />
       <ProjectTagFilterButton tagTitle="All" active={activeTags.length === 0} onClick={() => setActiveTags([])} />
       {projectTags.map(tag => (
         <ProjectTagFilterButton key={tag.id} tagTitle={tag.title} active={activeTags.includes(tag.id)} onClick={() => { toggleFilterTag(tag.id) }} />
