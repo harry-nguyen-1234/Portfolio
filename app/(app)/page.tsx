@@ -12,7 +12,7 @@ export default function Home() {
           My name's Harry, and I'm a junior full-stack developer who enjoys building responsive, accessible web experiences.
         </p>
         <p>
-          I like building things that feel good to use, and also have a keen interest in UI polish and performance.
+          I like building things that feel good to use, and I also have a keen interest in UI polish and performance.
         </p>
         <Link className='hyperlink flex items-center gap-2' href='/projects'>
           <p className="hyperlink-text">View my projects</p>
