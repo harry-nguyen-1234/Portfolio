@@ -34,7 +34,8 @@ interface BubbleData {
 }
 
 const BASE_BUBBLE_RADIUS = 60;
-const MAX_SPEED = 10;
+const SPEED_MULT = 2;
+const MAX_SPEED = 15;
 const SPEED_DECAY_RATE = 0.99;
 const BASE_ALPHA = 0.1;
 const MAX_ALPHA = 0.9;
@@ -92,7 +93,7 @@ function BubbleContainer() {
       bubble.alpha = BASE_ALPHA;
       container.addChild(bubble);
 
-      const baseSpeed = (1 / bubble.scale.x);
+      const baseSpeed = (1 / bubble.scale.x) * SPEED_MULT;
       const angle = Math.random() * Math.PI * 2;
 
       bubblesRef.current.push({
@@ -125,8 +126,8 @@ function BubbleContainer() {
 
       data.speed = Math.max(data.baseSpeed, data.speed * Math.pow(SPEED_DECAY_RATE, ticker.deltaTime));
 
-      child.x += (data.speed * data.dx);
-      child.y += (data.speed * data.dy);
+      child.x += (data.speed * data.dx) * ticker.deltaTime;
+      child.y += (data.speed * data.dy) * ticker.deltaTime;
 
       data.alpha = Math.max(BASE_ALPHA, data.alpha * Math.pow(ALPHA_DECAY_RATE, ticker.deltaTime))
       child.alpha = data.alpha;
@@ -146,9 +147,20 @@ function BubbleContainer() {
 }
 
 export default function Canvas() {
-  return <motion.div className="-z-10 fixed inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, ease: 'easeIn' }}>
-    <Application className='absolute top-0 left-0' width={window.innerWidth} height={window.innerHeight} backgroundColor={backgroundColor}>
-      <BubbleContainer />
-    </Application>
-  </motion.div>;
+  return (
+    <motion.div
+      className="-z-10 fixed inset-0"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1, ease: 'easeIn' }}
+    >
+      <Application
+        className='w-full h-full'
+        resizeTo={window}
+        backgroundColor={backgroundColor}
+      >
+        <BubbleContainer />
+      </Application>
+    </motion.div>
+  );
 }
