@@ -26,7 +26,7 @@ export default function ProjectGallery({ projects, projectTags }: { projects: Pr
   };
 
   return <div className="flex flex-col gap-6">
-    <div className="flex gap-4 items-center">
+    <div className="flex flex-wrap gap-4 items-center">
       {/* Project tag filter */}
       <HiOutlineFilter className="size-6" />
       <ProjectTagFilterButton tagTitle="All" active={activeTags.length === 0} onClick={() => setActiveTags([])} />
