@@ -34,7 +34,7 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
       </Link>}
     </div>
     <h1 className='font-bold text-4xl text-center my-7'>{title}</h1>
-    <div className="flex flex-wrap justify-center items-center gap-2 mb-7">
+    <div className="flex flex-wrap justify-center items-center gap-2 mb-7 lg:mb-20">
       <ProjectTagList tags={tags} />
     </div>
     <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
