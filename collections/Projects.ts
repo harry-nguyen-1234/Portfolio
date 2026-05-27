@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
+  versions: { drafts: true },
   fields: [
     {
       name: 'title',

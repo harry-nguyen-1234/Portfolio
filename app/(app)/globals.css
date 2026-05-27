@@ -48,7 +48,7 @@ main {
   flex-direction: column;
   flex-grow: 1;
   align-self: center;
-  max-width: var(--breakpoint-2xl)
+  width: 100%;
 }
 
 h1,

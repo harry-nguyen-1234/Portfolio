@@ -3,8 +3,8 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function Loading() {
   return (
-    <main>
-      <SkeletonTheme baseColor="var(--color-surface)" highlightColor="var(--color-surface-raised)" borderRadius="1rem">
+    <SkeletonTheme baseColor="var(--color-surface)" highlightColor="var(--color-surface-raised)" borderRadius="1rem">
+      <main className='max-w-screen-2xl'>
         {/* back and view project links */}
         <div className="flex justify-between">
           <Skeleton height={24} width={140} />
@@ -27,7 +27,7 @@ export default function Loading() {
             ))}
           </div>
         </div>
-      </SkeletonTheme>
-    </main>
-  )
+      </main>
+    </SkeletonTheme>
+  );
 }
