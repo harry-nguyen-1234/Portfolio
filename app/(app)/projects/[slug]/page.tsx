@@ -20,7 +20,7 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
   });
   const { title, description, project_image, tags, external_link } = project;
 
-  return <main>
+  return <main className='max-w-screen-2xl'>
     <div className='flex justify-end sm:justify-between'>
       {/* Back to Projects and View Project hyperlinks */}
       <Link className="hyperlink hidden sm:flex items-center gap-2" href="/projects">

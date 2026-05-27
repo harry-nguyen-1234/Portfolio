@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
-  return <main className="justify-center self-center max-w-5xl">
+  return <main className="justify-center max-w-5xl">
     <div className="flex flex-col md:flex-row gap-8 lg:gap-16 items-center">
       <Image className="rounded-full border-foreground border-4" src="/profile.png" alt="Picture of the site author" width={300} height={300} loading="eager" />
       <article className="text-justify flex flex-col gap-4 backdrop-blur-sm">
