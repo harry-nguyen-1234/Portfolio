@@ -6,7 +6,7 @@ Personal portfolio site showcasing my projects and skills as a full-stack develo
 
 ## Tech Stack
 
-- **Framework:** Next.js 15 (App Router) + TypeScript
+- **Framework:** Next.js v16 (App Router) + TypeScript
 - **Styling:** Tailwind CSS 4
 - **CMS:** Payload CMS
 - **Database:** MongoDB (production) / SQLite (local dev)
