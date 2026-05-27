@@ -13,7 +13,6 @@ import {
   Sprite,
   Texture,
   FillGradient,
-  Circle
 } from 'pixi.js';
 import { useEffect, useMemo, useRef } from 'react';
 
@@ -34,12 +33,13 @@ interface BubbleData {
 }
 
 const BASE_BUBBLE_RADIUS = 60;
-const SPEED_MULT = 2;
-const MAX_SPEED = 15;
+const BASE_SPEED_MULT = 0.5;
+const MAX_SPEED = 10;
 const SPEED_DECAY_RATE = 0.99;
 const BASE_ALPHA = 0.1;
 const MAX_ALPHA = 0.9;
 const ALPHA_DECAY_RATE = 0.99;
+const MOUSE_DETECT_RANGE = 80;
 
 const backgroundColor = getComputedStyle(document.documentElement)
   .getPropertyValue('--color-background').trim();
@@ -88,26 +88,18 @@ function BubbleContainer() {
       bubble.x = Math.random() * app.screen.width;
       bubble.y = Math.random() * app.screen.height;
       bubble.scale = Math.max(Math.random(), 0.5);
-      bubble.hitArea = new Circle(0, 0, BASE_BUBBLE_RADIUS * 3);
-      bubble.eventMode = 'dynamic';
       bubble.alpha = BASE_ALPHA;
       container.addChild(bubble);
 
-      const baseSpeed = (1 / bubble.scale.x) * SPEED_MULT;
+      const baseSpeed = (1 / bubble.scale.x) * BASE_SPEED_MULT;
       const angle = Math.random() * Math.PI * 2;
 
       bubblesRef.current.push({
-        baseSpeed: baseSpeed,
+        baseSpeed,
         speed: baseSpeed,
         dx: Math.cos(angle),
         dy: Math.sin(angle),
         alpha: BASE_ALPHA,
-      });
-
-      bubble.on('pointerenter', () => {
-        const data = bubblesRef.current[i];
-        data.speed = MAX_SPEED;
-        data.alpha = MAX_ALPHA;
       });
     }
 
@@ -120,17 +112,30 @@ function BubbleContainer() {
   useTick((ticker) => {
     if (!containerRef.current) return;
 
+    const pointerX = app.renderer.events.pointer.x;
+    const pointerY = app.renderer.events.pointer.y;
+
     containerRef.current.children.forEach((child, i) => {
       const data = bubblesRef.current[i];
       const radius = BASE_BUBBLE_RADIUS * child.scale.x;
 
-      data.speed = Math.max(data.baseSpeed, data.speed * Math.pow(SPEED_DECAY_RATE, ticker.deltaTime));
+      // mouse collision detection
+      const distX = pointerX - child.x;
+      const distY = pointerY - child.y;
+      const mouseDistance = Math.hypot(distX, distY);
+
+      if (mouseDistance - radius < MOUSE_DETECT_RANGE) {
+        data.speed = MAX_SPEED;
+        data.alpha = MAX_ALPHA;
+      } else {
+        data.speed = Math.max(data.baseSpeed, data.speed * Math.pow(SPEED_DECAY_RATE, ticker.deltaTime));
+        data.alpha = Math.max(BASE_ALPHA, data.alpha * Math.pow(ALPHA_DECAY_RATE, ticker.deltaTime));
+      }
+
+      child.alpha = data.alpha;
 
       child.x += (data.speed * data.dx) * ticker.deltaTime;
       child.y += (data.speed * data.dy) * ticker.deltaTime;
-
-      data.alpha = Math.max(BASE_ALPHA, data.alpha * Math.pow(ALPHA_DECAY_RATE, ticker.deltaTime))
-      child.alpha = data.alpha;
 
       if (child.x + radius > app.screen.width) child.x = app.screen.width - radius;
       else if (child.x - radius < 0) child.x = radius;

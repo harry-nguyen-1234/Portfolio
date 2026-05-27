@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
-  return <main className="h-full container py-8 flex flex-col justify-center self-center grow max-w-5xl">
+  return <main className="justify-center self-center max-w-5xl">
     <div className="flex flex-col md:flex-row gap-8 lg:gap-16 items-center">
       <Image className="rounded-full border-foreground border-4" src="/profile.png" alt="Picture of the site author" width={300} height={300} loading="eager" />
       <article className="text-justify flex flex-col gap-4 backdrop-blur-sm">
@@ -12,7 +12,7 @@ export default function Home() {
           My name's Harry, and I'm a junior full-stack developer who enjoys building responsive, accessible web experiences.
         </p>
         <p>
-          I like building things that feel good to use, and also have a keen interest in UI polish and performance.
+          I like building things that feel good to use, and I also have a keen interest in UI polish and performance.
         </p>
         <Link className='hyperlink flex items-center gap-2' href='/projects'>
           <p className="hyperlink-text">View my projects</p>

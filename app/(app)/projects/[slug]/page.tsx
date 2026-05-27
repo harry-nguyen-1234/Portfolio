@@ -20,14 +20,14 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
   });
   const { title, description, project_image, tags, external_link } = project;
 
-  return <>
-    <div className='flex justify-between'>
+  return <main>
+    <div className='flex justify-end sm:justify-between'>
       {/* Back to Projects and View Project hyperlinks */}
-      <Link className="hyperlink flex items-center gap-2" href="/projects">
+      <Link className="hyperlink hidden sm:flex items-center gap-2" href="/projects">
         <HiOutlineArrowLeft className="size-6" />
         <span className="hyperlink-text">Back to Projects</span>
       </Link>
-      {external_link && <Link className="hyperlink hidden sm:flex items-center gap-2" href={external_link} target="_blank" rel="noopener noreferrer">
+      {external_link && <Link className="hyperlink flex items-center gap-2" href={external_link} target="_blank" rel="noopener noreferrer">
         <span className="hyperlink-text">View project</span>
         <span className="sr-only">opens external link for {title} in new tab</span>
         <HiOutlineExternalLink className="size-6" />
@@ -44,16 +44,19 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
           alt={project_image.alt!}
           width={project_image.width!}
           height={project_image.height!}
-          className="rounded-2xl w-full"
+          className="rounded-2xl w-full max-w-xl lg:max-w-none justify-self-center"
           loading="eager"
         />
       }
       {description &&
-        <RichText className={clsx("flex flex-col gap-2",
+        <RichText className={clsx("flex flex-col gap-2 backdrop-blur-sm",
           "prose prose-custom max-w-none",
-          "prose-p:m-0 prose-p:text-base")}
+          "prose-p:m-0 prose-p:text-base",
+          "prose-h2:not-first:my-[1em]",
+          "prose-h3:not-first:my-[0.5em]",
+        )}
           data={description} />
       }
     </div>
-  </>
+  </main>
 }
