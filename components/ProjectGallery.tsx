@@ -25,6 +25,8 @@ export default function ProjectGallery({ projects, projectTags }: { projects: Pr
     return activeTags.every(tagId => projectTagIds.includes(tagId));
   };
 
+  const filteredProjects = projects.filter(isInFilter);
+
   return <div className="flex flex-col gap-6">
     <div className="flex flex-wrap gap-4 items-center">
       {/* Project tag filter */}
@@ -36,14 +38,14 @@ export default function ProjectGallery({ projects, projectTags }: { projects: Pr
     </div>
     <AnimatePresence mode="wait">
       <motion.div
-        key={activeTags.join(',')}
+        key={filteredProjects.map(p => p.id).join(',')}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
         className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
       >
-        {projects.filter(isInFilter).map(project => (<ProjectCard key={project.id} project={project} />))}
+        {filteredProjects.map(project => (<ProjectCard key={project.id} project={project} />))}
       </motion.div>
     </AnimatePresence>
   </div>
