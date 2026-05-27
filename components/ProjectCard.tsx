@@ -30,7 +30,7 @@ export default function ProjectCard({ project }: { project: Project }) {
     <Link href={projectDetailPageLink} className="hyperlink self-start">
       <h2 className="hyperlink-text text-2xl font-semibold">{title}</h2>
     </Link>
-    <div className="flex items-center gap-2">
+    <div className="flex flex-wrap items-center gap-2">
       <ProjectTagList tags={tags} />
     </div>
     {shortDescriptionSplit && <p>{shortDescriptionSplit.length > maxWordCount ? shortDescriptionSplit.slice(0, maxWordCount).join(' ') + '...' : short_description}</p>}
