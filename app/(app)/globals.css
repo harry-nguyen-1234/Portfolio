@@ -5,6 +5,7 @@
   --background: #111;
   --foreground: #fae3cd;
   --surface: #292929;
+  --surface-sunken: #222;
   --surface-raised: #3f3f3f;
 }
 
@@ -12,6 +13,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
+  --color-surface-sunken: var(--surface-sunken);
   --color-surface-raised: var(--surface-raised);
   --font-heading: var(--font-montserrat);
   --font-body: var(--font-poppins);
@@ -78,10 +80,9 @@ h6 {
     transition-timing-function: ease-out;
   }
 
-  .hyperlink:hover .hyperlink-text::after,
-  .hyperlink:focus-visible .hyperlink-text::after {
+  .hyperlink:is(:hover, :focus-visible, :active) .hyperlink-text::after {
     width: 100%;
-    transition-duration: 150ms;
+    transition-duration: 100ms;
   }
 
   .hyperlink:focus-visible {

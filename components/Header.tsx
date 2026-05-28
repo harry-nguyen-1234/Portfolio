@@ -1,39 +1,32 @@
 'use client'
 
 import Link from "next/link";
-import { MouseEventHandler, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { HiOutlineCode, HiOutlineHome, HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 
-function NavLinks({ onClick }: { onClick?: MouseEventHandler<HTMLAnchorElement> }) {
+export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const navLinks = [
     { href: '/', label: 'Home', icon: <HiOutlineHome className="size-6" /> },
     { href: '/projects', label: 'Projects', icon: <HiOutlineCode className="size-6" /> },
   ];
 
-  return <>
-    {navLinks.map(({ href, label, icon }) => (
-      <Link
-        key={href}
-        className="hyperlink text-lg py-4 px-6 flex items-center gap-2"
-        href={href}
-        onClick={onClick}
-      >
-        {icon}
-        <span className="hyperlink-text">{label}</span>
-      </Link>
-    ))}
-  </>
-}
-
-export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return <header className="py-4 sm:py-8 px-6 flex justify-center sticky top-0 z-10 bg-background/90">
     <div className="flex justify-end w-full max-w-screen-2xl">
       {/* Desktop nav menu */}
       <nav className="hidden sm:flex justify-between w-full" aria-label="desktop-navigation">
-        <NavLinks />
+        {navLinks.map(({ href, label, icon }) => (
+          <Link
+            key={href}
+            className="hyperlink text-lg py-4 px-6 flex items-center gap-2"
+            href={href}
+          >
+            {icon}
+            <span className="hyperlink-text">{label}</span>
+          </Link>
+        ))}
       </nav>
       <button
         className="sm:hidden p-1 ml-auto rounded-full border-foreground border-2"
@@ -77,7 +70,17 @@ export default function Header() {
             transition={{ duration: 0.2 }}
             aria-label="mobile-navigation"
           >
-            <NavLinks onClick={() => setMenuOpen(false)} />
+            {navLinks.map(({ href, label, icon }) => (
+              <Link
+                key={href}
+                className="text-lg py-4 px-6 flex items-center gap-2 active:bg-surface-sunken"
+                href={href}
+                onClick={() => setMenuOpen(false)}
+              >
+                {icon}
+                <span>{label}</span>
+              </Link>
+            ))}
           </motion.nav>
         }
       </AnimatePresence>
